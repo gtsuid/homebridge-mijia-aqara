@@ -3,75 +3,34 @@
 Homebridge plugin for Xiaomi Mijia and Aqara devices, based on [YinHangCode](https://github.com/YinHangCode)'s [original plugin](https://github.com/YinHangCode/homebridge-mi-aqara) and updated for Homebridge 2 compatibility.
 
 ## Supported Devices
-||Device Name|Protocol Model Value|
+| # | Device | Protocol Model IDs |
 |:-:|:-|:-|
-|1|Gateway|gateway<br>gateway.v3|
-|2|ContactSensor|magnet<br>sensor_magnet|
-|3|MotionSensor|motion|
-|4|Button|switch<br>sensor_switch|
-|5|TemperatureAndHumiditySensor|sensor_ht|
-|6|SingleSwitch|ctrl_neutral1|
-|7|DuplexSwitch|ctrl_neutral2|
-|8|SingleSwitchLN|ctrl_ln1<br>ctrl_ln1.aq1|
-|9|DuplexSwitchLN|ctrl_ln2<br>ctrl_ln2.aq1|
-|10|SingleButton86|86sw1<br>sensor_86sw1.aq1<br>sensor_86sw1|
-|11|DuplexButton86|86sw2<br>sensor_86sw2.aq1<br>sensor_86sw2|
-|12|PlugBase|plug|
-|13|PlugBase86|86plug<br>ctrl_86plug<br>ctrl_86plug.aq1|
-|14|MagicSquare|cube<br>sensor_cube<br>sensor_cube.aqgl01|
-|15|SmokeDetector|smoke<br>sensor_smoke|
-|16|NatgasDetector|natgas<br>sensor_natgas|
-|17|ElectricCurtain|curtain|
-|18|ContactSensor2|sensor_magnet.aq2|
-|19|MotionSensor2|sensor_motion.aq2|
-|20|Button2|sensor_switch.aq2<br>remote.b1acn01|
-|21|TemperatureAndHumiditySensor2|weather.v1<br>weather|
-|22|WaterDetector|sensor_wleak.aq1|
-|23|Lock|lock.aq1|
-|24|AcPartner|acpartner.v3|
-|25|Button3|sensor_switch.aq3|
-|26|DuplexButton862|remote.b286acn01|
-|27|VibrationSensor|vibration|
-|28|ElectricCurtainBattery|curtain.hagl04|
+|1|Smart Home Hub|gateway<br>gateway.v3|
+|2|Door & Window Sensor|magnet<br>sensor_magnet<br>sensor_magnet.aq2|
+|3|Motion Sensor|motion<br>sensor_motion.aq2|
+|4|Wireless Button|switch<br>sensor_switch<br>sensor_switch.aq2<br>remote.b1acn01<br>sensor_switch.aq3|
+|5|Temperature & Humidity Sensor|sensor_ht<br>weather.v1<br>weather|
+|6|Single Switch (No Neutral)|ctrl_neutral1<br>switch.b1lacn02<br>switch.b1lacn01<br>switch.l1acn1<br>switch.l1aeu1<br>switch.b1lc04|
+|7|Double Switch (No Neutral)|ctrl_neutral2<br>switch.b2lacn02<br>switch.b2lacn01<br>switch.l2acn1<br>switch.l2aeu1<br>switch.b2lc04|
+|8|Single Switch (With Neutral)|ctrl_ln1<br>ctrl_ln1.aq1<br>switch.b1nacn02<br>switch.b1nc01|
+|9|Double Switch (With Neutral)|ctrl_ln2<br>ctrl_ln2.aq1<br>switch.b2nacn02<br>switch.b2nc01<br>switch.n2aeu1|
+|10|Wireless Wall Button (Single Button)|86sw1<br>sensor_86sw1.aq1<br>sensor_86sw1|
+|11|Wireless Wall Button (Double Button)|86sw2<br>sensor_86sw2.aq1<br>sensor_86sw2<br>remote.b286acn01|
+|12|Smart Plug|plug|
+|13|Smart Wall Outlet|86plug<br>ctrl_86plug<br>ctrl_86plug.aq1|
+|14|Cube Remote|cube<br>sensor_cube<br>sensor_cube.aqgl01|
+|15|Smoke Detector|smoke<br>sensor_smoke|
+|16|Natural Gas Leak Detector|natgas<br>sensor_natgas|
+|17|Motorized Curtain Controller|curtain|
+|18|Water Leak Sensor|sensor_wleak.aq1|
+|19|Smart Door Lock|lock.aq1|
+|20|Air Conditioner Companion Hub|acpartner.v3|
+|21|Vibration Sensor|vibration|
+|22|Motorized Curtain Controller (Battery Powered)|curtain.hagl04|
 
-## Newer Aqara wall switches
+“86” in some model IDs refers to the square wall-switch format (approximately 86 × 86 mm), as shown in the [Aqara wireless wall button manual](https://cdn.cnbj2.fds.api.mi-img.com/cdn/aqara/website/manuals_en/Wireless%20Remote%20Switch%20%28Double%20Rocker%29%20Quick%20Start%20Guide.pdf). Wireless wall buttons are battery-powered remote controls.
 
-Single- and double-rocker switches below are recognized when a compatible gateway exposes them through this plugin's legacy LAN API. Both `switch.*` and full `lumi.switch.*` model identifiers are accepted, along with gateway spellings such as `switch_b2lacn02`. The original gateway model spelling is preserved in write commands.
-
-| Family | No neutral, single / double | With neutral, single / double |
-|:-|:-|:-|
-| D1 | `switch.b1lacn02` / `switch.b2lacn02` | `switch.b1nacn02` / `switch.b2nacn02` |
-| T1 | `switch.b1lacn01` / `switch.b2lacn01` | — |
-| H1 China | `switch.l1acn1` / `switch.l2acn1` | — |
-| H1 EU | `switch.l1aeu1` / `switch.l2aeu1` | — / `switch.n2aeu1` |
-| E1 | `switch.b1lc04` / `switch.b2lc04` | `switch.b1nc01` / `switch.b2nc01` |
-
-Model identities are listed in [Aqara's device documentation](https://opendoc.aqara.com/en/docs/SDKDevelopment/IOSDevelopmentGuide/Equipmentdistributionnetwork/DistributionNetworkSDKSupportedDeviceList.html); channel mappings are based on the [AqaraGateway device definitions](https://github.com/niceboygithub/AqaraGateway/blob/master/custom_components/aqara_gateway/core/utils.py). Three-rocker switches, Matter transport, and other unlisted models are not covered by these mappings.
-
-### Configuration for a D1 double switch without neutral
-
-`LN` means **live + neutral**. Use `DuplexSwitch_Switch_Left` and `DuplexSwitch_Switch_Right` for a no-neutral D1, rather than the `DuplexSwitchLN_*` keys. Add the following under the platform's `defaultValue`, replacing the example SID with the gateway-reported switch SID:
-
-```json
-"158d0000000001": {
-    "DuplexSwitch_Switch_Left": {
-        "name": "D1 left",
-        "serviceType": "Lightbulb"
-    },
-    "DuplexSwitch_Switch_Right": {
-        "name": "D1 right",
-        "serviceType": "Lightbulb"
-    }
-}
-```
-
-For a single-rocker no-neutral model use `SingleSwitch_Switch`. With-neutral variants use `SingleSwitchLN_Switch` or `DuplexSwitchLN_Switch_Left` / `DuplexSwitchLN_Switch_Right`. Existing accessory keys and UUIDs are preserved.
-
-Install this updated plugin in the Homebridge environment and restart Homebridge to discover the switches. Configuration customizes discovered accessories; it does not manually add devices. No configuration entry is required for discovery.
-
-Pairing in Xiaomi Home alone is insufficient: the gateway must return the switch in `get_id_list_ack` / `discovery_rsp`, respond to reads, and expose `channel_0` / `channel_1` on/off values through the LAN API. New gateway APIs (including MIoT) are not implemented by this change. Protocol 1 `data` and protocol 2 `params` state reports accept `on`/`off`, booleans, and numeric `1`/`0`; writes use the existing LAN on/off format.
-
-If a switch still does not appear, enable Homebridge debug logging, restart, and inspect `read_ack` / `read_rsp` messages for its SID. An exposed but unrecognized model now produces an `Unsupported device model` warning. If the gateway never exposes the device, a parser mapping cannot make it discoverable.
+The model values above also accept the `lumi.` prefix and gateway switch spellings such as `switch_b2lacn02`. Devices must be exposed by a compatible gateway through its legacy LAN API.
 
 ## Pre-Requirements
 1. Make sure your IOS version is IOS11 or later.
