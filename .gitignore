@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# npm packages and logs
+*.tgz
+*.log
+
+# Test output
+coverage/
+.nyc_output/
+
+# Local credentials and device configuration
+.env
+.env.*
+!.env.example
+.npmrc
+config.json
+config.js
+
+# macOS
+.DS_Store
