@@ -2,23 +2,25 @@
 
 All notable changes to `homebridge-mijia-aqara` are documented here.
 
+## [1.0.3] - 2026-11-04
+
+- Add support for additional Aqara wireless wall buttons and US/EU Zigbee smart plugs.
+- Add support for the Aqara dual relay module and D1 triple switches, with and without neutral.
+- Add on/off, brightness, and white colour-temperature control for the Aqara dimmable white bulb.
+- Allow a device model to be configured by SID when a gateway omits it, including affected dual relay modules.
+
 ## [1.0.2] - 2026-11-04
 
-- Recognize gateway model IDs with an underscore switch prefix, including `switch_b2lacn02`.
-- Preserve the reported model spelling in commands and add regression coverage for D1 discovery and both channels.
+- Fix Aqara D1 switches not appearing in Homebridge or Apple Home when the gateway reports a model ID such as `switch_b2lacn02`.
 
 ## [1.0.1] - 2026-11-04
 
-- Recognize selected D1, E1, H1, and T1 single- and double-rocker wall switches.
-- Accept full `lumi.` model IDs and boolean or numeric switch state reports.
-- Fix malformed protocol 1 write commands for no-neutral switches.
-- Warn when a discovered device model has no matching parser.
-- Document no-neutral configuration keys and gateway LAN requirements; add 46 regression tests.
+- Add support for selected Aqara D1, E1, H1, and T1 single- and double-rocker wall switches through compatible gateways.
+- Fix control commands for single and double switches without neutral on older gateways.
+- Improve device recognition and switch state updates across gateway firmware variants.
+- Show a warning in the Homebridge log when a discovered device is unsupported.
 
 ## [1.0.0] - 2026-10-25
 
-- Fix `LIGHTBULB` crashes by restoring legacy accessory category access.
-- Map removed `BatteryService` to `Battery`.
-- Replace `getServiceByUUIDAndSubType()` with `getServiceById()` in the lock parser.
-- Remove obsolete `accessory.reachable` usage.
-- Update runtime requirements for Homebridge 2 and modern Node.js.
+- Add compatibility with Homebridge 2, including fixes for lightbulbs, battery sensors, and door locks.
+- Require Node.js 22.12.0 or later in the 22.x release line, Node.js 24.x, or Node.js 26.x.

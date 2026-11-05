@@ -1,7 +1,7 @@
 {
   "name": "homebridge-mijia-aqara",
   "displayName": "Homebridge Mijia Aqara",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Xiaomi & Aqara Gateway and accessory support for Homebridge.",
   "license": "GPL",
   "main": "index.js",

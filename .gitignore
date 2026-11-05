@@ -5,7 +5,8 @@ node_modules/
 *.tgz
 *.log
 
-# Test output
+# Local development tests and output
+/test/
 coverage/
 .nyc_output/
 

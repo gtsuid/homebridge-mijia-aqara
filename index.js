@@ -286,6 +286,9 @@ MiAqaraPlatform.prototype.parseMessage = function(msg, rinfo) {
     var jsonObj;
     try {
         jsonObj = JSON.parse(msg);
+        // A few gateway firmwares omit the relay's model. Resolve an explicit
+        // SID mapping before discovery stores the model used by write commands.
+        jsonObj = that.ParseUtil.resolveMessageModel(jsonObj);
     } catch (ex) {
         that.log.error("Bad msg: " + msg);
         return;
